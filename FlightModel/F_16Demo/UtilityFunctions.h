@@ -15,6 +15,23 @@ typedef struct{
 		int *nPoints;   
 		}ND_INFO;
 
+// Simple upper and lower limiter
+double limit(double input, double lower_limit, double upper_limit)
+{
+	if(input > upper_limit)
+	{
+		return upper_limit;
+	}
+	else if(input < lower_limit)
+	{
+		return lower_limit;
+	}
+	else
+	{
+		return input;
+	}
+}
+
 // Vector set of integers
 int *intVector(int n){
 	int *vec = (int*)malloc(n*sizeof(int));
@@ -96,7 +113,7 @@ int **getHyperCube(double **X,double *V,ND_INFO ndinfo){
         		Get the ith component in the vector V, the point at which we want to 
         		interpolate
 		****************************************************************************/
-		x = V[i];
+		x = limit(V[i], xmin, xmax);
 
 		/* Check to see if this point is within the bound */
 		if(x<xmin || x>xmax)
@@ -241,20 +258,5 @@ double interpn(double **X,double *Y,double *x,ND_INFO ndinfo){
 	}
 // End of Utility Functions
 
-// Simple upper and lower limiter
-double limit(double input, double lower_limit, double upper_limit)
-{
-	if(input > upper_limit)
-	{
-		return upper_limit;
-	}
-	else if(input < lower_limit)
-	{
-		return lower_limit;
-	}
-	else
-	{
-		return input;
-	}
-}
+
 #endif
